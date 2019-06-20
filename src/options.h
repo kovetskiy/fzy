@@ -12,6 +12,9 @@ typedef struct {
 	const char *prompt;
 	unsigned int workers;
 	int show_info;
+	char delimiter;
+	unsigned int field;
+	unsigned int output_field;
 } options_t;
 
 void options_init(options_t *options);

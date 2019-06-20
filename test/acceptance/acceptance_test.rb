@@ -456,6 +456,28 @@ class FzyTest < Minitest::Test
     @tty.assert_matches "> baq\n[0/3]"
   end
 
+  def test_field
+    @tty = interactive_fzy(input: %w[1/foo 2/bar], args: "-d/ -f2 -F1")
+    @tty.assert_matches(">\nfoo\nbar")
+
+    @tty.send_keys("foo\r")
+    @tty.assert_matches "1" # the first field
+  end
+
+  def test_field_input_only
+    @tty = interactive_fzy(input: %w[1:foo 2:bar], args: "-f2")
+    @tty.assert_matches ">\nfoo\nbar"
+
+    @tty.send_keys("bar\r")
+    @tty.assert_matches "2:bar" # the whole line
+  end
+
+  def test_field_ignored_line
+    # not enough fields for -f or -F
+    @tty = interactive_fzy(input: %w[1:foo:x 2:baz 3 4:bar:y], args: "-f2 -F3")
+    @tty.assert_matches ">\nfoo\nbar"
+  end
+
   def test_help
     @tty = TTYtest.new_terminal(%{#{FZY_PATH} --help})
     @tty.assert_matches <<TTY
@@ -466,8 +488,12 @@ Usage: fzy [OPTION]...
  -e, --show-matches=QUERY Output the sorted matches of QUERY
  -t, --tty=TTY            Specify file to use as TTY device (default /dev/tty)
  -s, --show-scores        Show the scores of each match
- -j, --workers NUM        Use NUM workers for searching. (default is # of CPUs)
  -i, --show-info          Show selection info line
+ -j, --workers=NUM        Use NUM workers for searching (default is # of CPUs)
+ -d, --delimiter=DELIM    Use DELIM to split the line to fields (default ':')
+ -f, --field=NUM          Use field NUM for searching (default is the whole line
+)
+ -F, --output-field=NUM   Use field NUM for output (default is the whole line)
  -h, --help     Display this help and exit
  -v, --version  Output version information and exit
 TTY
