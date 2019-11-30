@@ -15,6 +15,7 @@ typedef struct {
 	char delimiter;
 	unsigned int field;
 	unsigned int output_field;
+	char input_delimiter;
 } options_t;
 
 void options_init(options_t *options);

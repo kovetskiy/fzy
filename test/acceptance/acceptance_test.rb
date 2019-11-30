@@ -489,11 +489,12 @@ Usage: fzy [OPTION]...
  -t, --tty=TTY            Specify file to use as TTY device (default /dev/tty)
  -s, --show-scores        Show the scores of each match
  -i, --show-info          Show selection info line
- -j, --workers=NUM        Use NUM workers for searching (default is # of CPUs)
+ -j, --workers NUM        Use NUM workers for searching. (default is # of CPUs)
  -d, --delimiter=DELIM    Use DELIM to split the line to fields (default ':')
  -f, --field=NUM          Use field NUM for searching (default is the whole line
 )
  -F, --output-field=NUM   Use field NUM for output (default is the whole line)
+ -0, --read-null          Read input delimited by ASCII NUL characters
  -h, --help     Display this help and exit
  -v, --version  Output version information and exit
 TTY
